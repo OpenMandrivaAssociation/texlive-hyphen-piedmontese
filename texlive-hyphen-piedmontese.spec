@@ -6,7 +6,7 @@
 # catalog-version undef
 Name:		texlive-hyphen-piedmontese
 Version:	20131011
-Release:	8
+Release:	9
 Summary:	Piedmontese hyphenation patterns
 Group:		Publishing
 URL:		http://tug.org/texlive
