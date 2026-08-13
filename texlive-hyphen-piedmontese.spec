@@ -13,9 +13,33 @@ BuildArch:	noarch
 BuildSystem:	texlive
 Requires:	texlive(hyph-utf8)
 Requires:	texlive(hyphen-base)
-Provides:	texlive(%{tl_name}) = %{tl_revision}
+Requires:	texlive-tlpkg
+Provides:	texlive(%{tl_name}) = %{version}
 
 %description
 Hyphenation patterns for Piedmontese in ASCII encoding. Compliant with
 'Gramatica dla lengua piemonteisa' by Camillo Brero.
 
+
+%install -a
+mkdir -p %{buildroot}%{_texmf_language_dat_d}
+cat > %{buildroot}%{_texmf_language_dat_d}/%{tl_name} <<'TL_HYPHEN_EOF'
+% from hyphen-piedmontese:
+piedmontese loadhyph-pms.tex
+TL_HYPHEN_EOF
+mkdir -p %{buildroot}%{_texmf_language_def_d}
+cat > %{buildroot}%{_texmf_language_def_d}/%{tl_name} <<'TL_HYPHEN_EOF'
+% from hyphen-piedmontese:
+\addlanguage{piedmontese}{loadhyph-pms.tex}{}{2}{2}
+TL_HYPHEN_EOF
+mkdir -p %{buildroot}%{_texmf_language_lua_d}
+cat > %{buildroot}%{_texmf_language_lua_d}/%{tl_name} <<'TL_HYPHEN_EOF'
+-- from hyphen-piedmontese:
+['piedmontese'] = {
+	loader = 'loadhyph-pms.tex',
+	lefthyphenmin = 2,
+	righthyphenmin = 2,
+	synonyms = {  },
+	patterns = 'hyph-pms.pat.txt',
+},
+TL_HYPHEN_EOF
